@@ -3,7 +3,7 @@ require 'openssl'
 module OmnivoreApi
   class Client
 
-    API_VERSION = '0.1'
+    API_VERSION = '1.0'
     DEFAULT_SERVER = 'https://api.omnivore.io'
 
     attr_reader :api_key, :server, :connection
@@ -79,7 +79,7 @@ module OmnivoreApi
     def revenue_center
       OmnivoreApi::Api::RevenueCenter.new(self)
     end
-    
+
     def payment
       OmnivoreApi::Api::Payment.new(self)
     end
@@ -113,8 +113,9 @@ module OmnivoreApi
       body    = options[:body].nil? ? nil : options[:body]
       headers = options[:headers]
       timeout = options[:timeout] || 20
-  
+
       @connection.send(method) do |req|
+        puts "GET URL #{url}"
         req.url(url)
         req.params.merge!(params)
         req.body = body.nil? ? nil : body.to_json
